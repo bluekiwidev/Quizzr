@@ -21,7 +21,7 @@
           "rewarding",
           "social",
           "immersive",
-		  "fun again"
+		      "fun again"
         ]}
       />
     </span>

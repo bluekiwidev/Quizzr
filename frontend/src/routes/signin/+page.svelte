@@ -1,7 +1,29 @@
 <script>
-	import { DiaTextReveal } from "$lib/components/magic/dia-text-reveal";
+	import Navbar from "$lib/components/navbar.svelte";
 </script>
 
-<div class="bg-emerald-700 flex-col items-center gap-4 py-4 px-5">
-	<h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-4xl text-left">Voxel</h1>
+<Navbar />
+
+<div class="flex w-[clamp(20rem,30vw,45rem)] items-center justify-center p-8 bg-primary place-self-center rounded-lg">
+  <h1 class="text-3xl font-bold text-white display-block">Sign In</h1>
+  <form method="POST" class="flex flex-col gap-4 w-full">
+	<input
+	  type="text"
+	  name="email"
+	  placeholder="Email"
+	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+	/>
+	<input
+	  type="password"
+	  name="password"
+	  placeholder="Password"
+	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+	/>
+	<button
+	  type="submit"
+	  class="bg-emerald-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600 transition-colors duration-300"
+	>
+	  Sign In
+	</button>
+  </form>
 </div>
