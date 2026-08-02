@@ -1,5 +1,15 @@
-<script>
+<script lang="ts">
 	import Navbar from "$lib/components/navbar.svelte";
+	import checkUsernameAvailability from "$lib/auth/usernamechecker";
+
+	// Logic for username status
+	let usernameAvailable = $state("")
+
+	function displayUsernameStatus(username: string) {
+		const status = checkUsernameAvailability(username);
+		usernameAvailable = status;
+	}
+	
 </script>
 
 <Navbar />
@@ -12,6 +22,13 @@
 	  name="email"
 	  placeholder="Email"
 	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+	/>
+	<input
+	  type="text"
+	  name="username"
+	  placeholder="Username"
+	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+	  oninput={(e) => displayUsernameStatus(e.target.value)}
 	/>
 	<input
 	  type="password"
