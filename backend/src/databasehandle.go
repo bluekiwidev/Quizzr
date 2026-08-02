@@ -46,15 +46,15 @@ func dbstartup() {
 }
 
 func tables(db *sql.DB) {
-	// Add in all the rows in the db here!!!
-	rowsthatshouldbehere := "Email, Password"
+	// Add in all the Tables in the db here!!!
+	tablesthatshouldbehere := "email, password"
 
-	rows, err := db.Query(rowsthatshouldbehere)
-	fmt.Printf(rowsthatshouldbehere)
+	rows, err := db.Query(tablesthatshouldbehere)
+	fmt.Printf(tablesthatshouldbehere)
 	if err != nil {
-		log.Printf("There are no Rows, replacing. \n")
+		log.Printf("\n There are no Table, replacing.")
 	}
 	if rows != nil {
-		log.Fatalf("Emails exists? \n")
+		log.Fatalf("\n Emails exists?")
 	}
 }
