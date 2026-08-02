@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voxlet-backend
+    ports:
+      - "8080:8080"
+  
+  mariadb:
+    image: mariadb:latest
+    container_name: voxlet-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: voxletdb
+      MYSQL_USER: voxletuser
+      MYSQL_PASSWORD: voxletpassword
+    ports:
+      - "3306:3306"
