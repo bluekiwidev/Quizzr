@@ -17,7 +17,7 @@ func dbstartup() {
 	// .env read
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir?")
+		log.Println("Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? Will try to use system env variables instead...", err)
 	}
 
 	DB := os.Getenv("DB")
