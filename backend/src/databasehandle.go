@@ -45,16 +45,39 @@ func dbstartup() {
 	tables(db)
 }
 
+// This is not finished. Finish it later T_T
 func tables(db *sql.DB) {
 	// Add in all the Tables in the db here!!!
-	tablesthatshouldbehere := "email, password"
+	query := "SHOW TABLES LIKE 'email'"
 
-	rows, err := db.Query(tablesthatshouldbehere)
-	fmt.Printf(tablesthatshouldbehere)
+	rows, err := db.Query(query)
 	if err != nil {
-		log.Printf("\n There are no Table, replacing.")
+		log.Fatalf(err.Error())
 	}
-	if rows != nil {
-		log.Fatalf("\n Emails exists?")
+	defer rows.Close()
+
+	if rows.Next() {
+		fmt.Println("Table exists")
+	} else {
+		fmt.Println("Table does not exist")
+		createtables(db)
 	}
+}
+
+func createtables(db *sql.DB) {
+	query := `CREATE TABLE email (id INT AUTO_INCREMENT PRIMARY KEY,email VARCHAR(255) NOT NULL)`
+
+	_, err := db.Exec(query)
+	if err != nil {
+		log.Fatalf("Database failed to write: ", err)
+	}
+	fmt.Printf("\n Created Email Table")
+
+	query = `CREATE TABLE password (id INT AUTO_INCREMENT PRIMARY KEY,password VARCHAR(255) NOT NULL)`
+
+	_, err = db.Exec(query)
+	if err != nil {
+		log.Fatalf("Database failed to write: ", err)
+	}
+	fmt.Printf("\n Created Password Table")
 }
