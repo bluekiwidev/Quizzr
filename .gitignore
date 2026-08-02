@@ -22,3 +22,38 @@ frontend/.env.*
 # Vite
 frontend/vite.config.js.timestamp-*
 frontend/vite.config.ts.timestamp-*
+
+# BACKEND
+
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
+backend/src/*.exe
+backend/src/*.exe~
+backend/src/*.dll
+backend/src/*.so
+backend/src/*.dylib
+
+# Test binary, built with `go test -c`
+backend/src/*.test
+
+# Code coverage profiles and other test artifacts
+backend/src/*.out
+backend/src/coverage.*
+backend/src/*.coverprofile
+backend/src/profile.cov
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+backend/src/go.work
+backend/src/go.work.sum
+
+# env file
+backend/src/.env
+
+# Editor/IDE
+# .idea/
+# .vscode/
