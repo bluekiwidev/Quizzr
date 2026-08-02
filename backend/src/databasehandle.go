@@ -21,7 +21,6 @@ func dbstartup() {
 	}
 
 	DB := os.Getenv("DB")
-	fmt.Printf(DB)
 
 	// The db actually starts startinging
 	dsn := DB // The maria db connection
@@ -43,4 +42,19 @@ func dbstartup() {
 	}
 
 	fmt.Println("Database Connected Successfully!")
+	tables(db)
+}
+
+func tables(db *sql.DB) {
+	// Add in all the Tables in the db here!!!
+	tablesthatshouldbehere := "email, password"
+
+	rows, err := db.Query(tablesthatshouldbehere)
+	fmt.Printf(tablesthatshouldbehere)
+	if err != nil {
+		log.Printf("\n There are no Table, replacing.")
+	}
+	if rows != nil {
+		log.Fatalf("\n Emails exists?")
+	}
 }
