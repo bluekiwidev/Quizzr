@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -22,10 +21,9 @@ func startwebserver() {
 	// Start webserver
 	fmt.Println("Starting Webserver on Port ", PORT)
 
-	responseHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "Hello, world!\n")
-	}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "index.html")
+	})
 
-	http.HandleFunc("/main", responseHandler)
 	log.Fatal(http.ListenAndServe(PORT, nil))
 }
