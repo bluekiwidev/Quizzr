@@ -26,4 +26,5 @@
 	  Sign In
 	</button>
   </form>
+  <span class="text-white mt-4">Don't have an account? <a href="/signup" class="text-emerald-500 hover:underline">Sign Up</a></span>
 </div>
