@@ -55,5 +55,5 @@ backend/src/go.work.sum
 backend/src/.env
 
 # Editor/IDE
-# .idea/
-# .vscode/
+.idea/
+.vscode/
