@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Navbar from "$lib/components/navbar.svelte";
 	import checkUsernameAvailability from "$lib/auth/usernamechecker";
+	import sendSignupRequest from "$lib/auth/signup";
+
 
 	// Logic for username status
 	let usernameAvailable = $state("")
