@@ -70,7 +70,7 @@ func tables(db *sql.DB) {
 
 func createtables(db *sql.DB, currentTables []string) {
 	// ADD ALL THE TABLES THAT NEEDS TO BE HERE BELOW.
-	Tablesthatshouldbehere := []string{"email", "password", "cats"}
+	Tablesthatshouldbehere := []string{"usernames", "passwords"}
 
 	for _, required := range Tablesthatshouldbehere {
 		found := false
@@ -89,5 +89,54 @@ func createtables(db *sql.DB, currentTables []string) {
 			}
 			fmt.Printf("\nCreated %s table\n", required)
 		}
+	}
+}
+
+func usernamevalidcheck(username string) int {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir?")
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
+	fmt.Println(dsn, "\n")
+
+	db, err := sql.Open("mysql", dsn) // Initializing
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
+	}
+	defer db.Close()
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
+	}
+
+	fmt.Println("Database Connected Successfully!")
+
+	var exists bool
+
+	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM usernames WHERE usernames = ?)", username).Scan(&exists)
+
+	if err != nil {
+		fmt.Println("QueryRow error:", err)
+		return 500
+	}
+
+	if exists {
+		fmt.Println("Sent code 409")
+		return 409 // username taken
+	} else {
+		fmt.Println("Sent code 200")
+		return 200 // username available
 	}
 }

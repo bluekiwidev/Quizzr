@@ -13,7 +13,7 @@ func main() {
 		log.Fatal("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir?")
 	}
 
-	PORT := os.Getenv("WEBSERVER_PORT")
+	PORT := os.Getenv("BACKEND_API_PORT")
 
 	dbstartup()
 	startwebserver(PORT)
