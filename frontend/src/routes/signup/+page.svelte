@@ -6,6 +6,7 @@
 	// Logic for username status
 	let username = $state("");
  	let usernameStatus = $state();
+	let signupStatus = $state();
 	let isChecking = $state(false);
 
 	async function handleSubmit(event: SubmitEvent) {
@@ -14,16 +15,25 @@
 		const formData = new FormData(form);
 
 		const email = String(formData.get("email"));
-		const cleanUsername = String(formData.get("username"));
+		const username = String(formData.get("username"));
 		const password = String(formData.get("password"));
 
 		isChecking = true;
-		const availability = await checkUsernameAvailability(cleanUsername);
-		console.log("availability", availability);
+		const availability = await checkUsernameAvailability(username);
 		isChecking = false;
 
+		const signupResult = await sendSignupRequest(email, username, password);
+
 		if (availability === 0) {
-			await sendSignupRequest(email, cleanUsername, password);
+			if (signupResult === 0) {
+				// Signup successful
+			} else if (signupResult === 1) {
+				signupStatus = "Username or email already exists.";
+			} else if (signupResult === 2) {
+				signupStatus = "Invalid input.";
+			} else if (signupResult === 3) {
+				signupStatus = "Error occurred while signing up.";
+			}
 		} else if (availability === 1) {
 			usernameStatus = "Username is already taken.";
 		} else {
@@ -53,6 +63,9 @@
 	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
 	/>
 	<p class="text-sm text-white">Only letters, numbers, and underscores are allowed. Must be between 3 and 20 characters. </p>
+	{#if isChecking }
+	  <p class="text-sm text-white">Checking username availability...</p>
+	{/if}
 	<p>{usernameStatus}</p>
 	<input
 	  type="password"
@@ -68,5 +81,6 @@
 	>
 	  Sign In
 	</button>
+	<p class="text-red-500">{signupStatus}</p>
   </form>
 </div>
