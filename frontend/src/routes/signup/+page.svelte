@@ -6,6 +6,7 @@
 	// Logic for username status
 	let username = $state("");
  	let usernameStatus = $state();
+	let signupStatus = $state();
 	let isChecking = $state(false);
 
 	async function handleSubmit(event: SubmitEvent) {
@@ -21,8 +22,18 @@
 		const availability = await checkUsernameAvailability(username);
 		isChecking = false;
 
+		const signupResult = await sendSignupRequest(email, username, password);
+
 		if (availability === 0) {
-			await sendSignupRequest(email, username, password);
+			if (signupResult === 0) {
+				// Signup successful
+			} else if (signupResult === 1) {
+				signupStatus = "Username or email already exists.";
+			} else if (signupResult === 2) {
+				signupStatus = "Invalid input.";
+			} else if (signupResult === 3) {
+				signupStatus = "Error occurred while signing up.";
+			}
 		} else if (availability === 1) {
 			usernameStatus = "Username is already taken.";
 		} else {
@@ -70,5 +81,6 @@
 	>
 	  Sign In
 	</button>
+	<p class="text-red-500">{signupStatus}</p>
   </form>
 </div>
