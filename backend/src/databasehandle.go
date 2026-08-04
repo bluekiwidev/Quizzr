@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -68,27 +69,61 @@ func tables(db *sql.DB) {
 	createtables(db, currentTables)
 }
 
+// Column describes one column: its name, and the raw SQL that defines its
+// type/constraints (everything after the name).
+type Column struct {
+	Name       string
+	Definition string
+}
+
+// TableSchema describes one table and the columns it should have.
+type TableSchema struct {
+	Name    string
+	Columns []Column
+}
+
+var expectedTables = []TableSchema{
+	{
+		Name: "userdata",
+		Columns: []Column{
+			{Name: "id", Definition: "INT AUTO_INCREMENT PRIMARY KEY"},
+			{Name: "username", Definition: "VARCHAR(255) NOT NULL"},
+		},
+	},
+	{
+		Name: "userdata",
+		Columns: []Column{
+			{Name: "id", Definition: "INT AUTO_INCREMENT PRIMARY KEY"},
+			{Name: "email", Definition: "VARCHAR(255) NOT NULL"},
+			{Name: "username", Definition: "VARCHAR(255) NOT NULL"},
+			{Name: "password", Definition: "VARCHAR(255) NOT NULL"},
+			{Name: "datejoined", Definition: "DATETIME DEFAULT CURRENT_TIMESTAMP"},
+			{Name: "isadmin", Definition: "BOOLEAN NOT NULL DEFAULT FALSE"},
+		},
+	},
+}
+
 func createtables(db *sql.DB, currentTables []string) {
-	// ADD ALL THE TABLES THAT NEEDS TO BE HERE BELOW.
-	Tablesthatshouldbehere := []string{"usernames", "passwords"}
+	existing := make(map[string]bool, len(currentTables))
+	for _, t := range currentTables {
+		existing[t] = true
+	}
 
-	for _, required := range Tablesthatshouldbehere {
-		found := false
-		for _, existing := range currentTables {
-			if required == existing {
-				found = true
-				break
-			}
+	for _, table := range expectedTables {
+		if existing[table.Name] {
+			continue
 		}
 
-		if !found {
-			query := fmt.Sprintf("CREATE TABLE %s (id INT AUTO_INCREMENT PRIMARY KEY, %s VARCHAR(255) NOT NULL)", required, required)
-			_, err := db.Exec(query)
-			if err != nil {
-				log.Fatalf("Database failed to write: %v", err)
-			}
-			fmt.Printf("\nCreated %s table\n", required)
+		defs := make([]string, len(table.Columns))
+		for i, col := range table.Columns {
+			defs[i] = col.Name + " " + col.Definition
 		}
+
+		query := fmt.Sprintf("CREATE TABLE %s (%s)", table.Name, strings.Join(defs, ", "))
+		if _, err := db.Exec(query); err != nil {
+			log.Fatalf("Database failed to write: %v", err)
+		}
+		fmt.Printf("\nCreated %s table\n", table.Name)
 	}
 }
 
@@ -103,7 +138,7 @@ func usernamevalidcheck(username string) int {
 
 	db, err := sql.Open("mysql", dsn) // Initializing
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
 	}
 	defer db.Close()
 	db.SetMaxOpenConns(25)
@@ -112,14 +147,14 @@ func usernamevalidcheck(username string) int {
 
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
 	}
 
 	fmt.Println("Database Connected Successfully!")
 
 	var exists bool
 
-	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM usernames WHERE usernames = ?)", username).Scan(&exists)
+	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE username = ?)", username).Scan(&exists)
 
 	if err != nil {
 		fmt.Println("QueryRow error:", err)
