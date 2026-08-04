@@ -84,7 +84,7 @@ type TableSchema struct {
 
 var expectedTables = []TableSchema{
 	{
-		Name: "users",
+		Name: "userdata",
 		Columns: []Column{
 			{Name: "id", Definition: "INT AUTO_INCREMENT PRIMARY KEY"},
 			{Name: "username", Definition: "VARCHAR(255) NOT NULL"},
@@ -144,7 +144,7 @@ func usernamevalidcheck(username string) int {
 
 	db, err := sql.Open("mysql", dsn) // Initializing
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
 	}
 	defer db.Close()
 	db.SetMaxOpenConns(25)
@@ -153,14 +153,14 @@ func usernamevalidcheck(username string) int {
 
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
 	}
 
 	fmt.Println("Database Connected Successfully!")
 
 	var exists bool
 
-	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM usernames WHERE usernames = ?)", username).Scan(&exists)
+	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE username = ?)", username).Scan(&exists)
 
 	if err != nil {
 		fmt.Println("QueryRow error:", err)
