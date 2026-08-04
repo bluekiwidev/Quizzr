@@ -14,16 +14,15 @@
 		const formData = new FormData(form);
 
 		const email = String(formData.get("email"));
-		const cleanUsername = String(formData.get("username"));
+		const username = String(formData.get("username"));
 		const password = String(formData.get("password"));
 
 		isChecking = true;
-		const availability = await checkUsernameAvailability(cleanUsername);
-		console.log("availability", availability);
+		const availability = await checkUsernameAvailability(username);
 		isChecking = false;
 
 		if (availability === 0) {
-			await sendSignupRequest(email, cleanUsername, password);
+			await sendSignupRequest(email, username, password);
 		} else if (availability === 1) {
 			usernameStatus = "Username is already taken.";
 		} else {
@@ -53,6 +52,9 @@
 	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
 	/>
 	<p class="text-sm text-white">Only letters, numbers, and underscores are allowed. Must be between 3 and 20 characters. </p>
+	{#if isChecking }
+	  <p class="text-sm text-white">Checking username availability...</p>
+	{/if}
 	<p>{usernameStatus}</p>
 	<input
 	  type="password"
