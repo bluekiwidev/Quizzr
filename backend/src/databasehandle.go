@@ -12,12 +12,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var dbName = os.Getenv("DB_NAME")
-var dbUser = os.Getenv("DB_USER")
-var dbPword = os.Getenv("DB_PWORD")
-var dbIP = os.Getenv("DB_IP")
-var dbPort = os.Getenv("DB_PORT")
-
 func dbstartup() {
 	fmt.Println("Starting DB")
 
@@ -25,6 +19,12 @@ func dbstartup() {
 	if err != nil {
 		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
 	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
 	fmt.Println(dsn, "\n")
@@ -125,6 +125,12 @@ func usernamevalidcheck(username string) int {
 	if err != nil {
 		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
 	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
 	fmt.Println(dsn, "\n")
