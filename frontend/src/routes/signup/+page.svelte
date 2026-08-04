@@ -14,7 +14,7 @@
 		const formData = new FormData(form);
 
 		const email = String(formData.get("email"));
-		const cleanUsername = username.trim();
+		const cleanUsername = username.trim(String(formData.get("username")));
 		const password = String(formData.get("password"));
 
 		isChecking = true;
