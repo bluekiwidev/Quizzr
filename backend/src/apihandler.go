@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -33,5 +34,30 @@ func startwebserver(PORT string) {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 	})
+
+	type Payload struct {
+		Email    string `json:"Email"`
+		Username string `json:"Username"`
+		Password string `json:"Password"`
+	}
+
+	http.HandleFunc("/blahblahblah", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Received request")
+
+		var payload Payload
+
+		err := json.NewDecoder(r.Body).Decode(&payload)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+
+		if appenduser(payload.Username, payload.Email, payload.Password) == true {
+			fmt.Println("IT MADE THE ACC")
+		}
+
+		w.WriteHeader(http.StatusOK)
+	})
+
 	log.Fatal(http.ListenAndServe(PORT, nil))
 }
