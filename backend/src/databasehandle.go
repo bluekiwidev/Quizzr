@@ -87,13 +87,6 @@ var expectedTables = []TableSchema{
 		Name: "userdata",
 		Columns: []Column{
 			{Name: "id", Definition: "INT AUTO_INCREMENT PRIMARY KEY"},
-			{Name: "username", Definition: "VARCHAR(255) NOT NULL"},
-		},
-	},
-	{
-		Name: "userdata",
-		Columns: []Column{
-			{Name: "id", Definition: "INT AUTO_INCREMENT PRIMARY KEY"},
 			{Name: "email", Definition: "VARCHAR(255) NOT NULL"},
 			{Name: "username", Definition: "VARCHAR(255) NOT NULL"},
 			{Name: "password", Definition: "VARCHAR(255) NOT NULL"},
