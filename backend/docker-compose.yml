@@ -5,8 +5,12 @@ services:
       dockerfile: Dockerfile
     container_name: voxlet-backend
     environment:
-      DB: "admin:1234@tcp(mariadb:3306)/VoxletPostProd?parseTime=true"
-      WebserverPort: :3000
+      DB_NAME: VoxletDB
+      DB_USER: admin
+      DB_PWORD: 1234
+      DB_IP: mariadb
+      DB_PORT: 3306
+      BACKEND_API_PORT: 3000
     ports:
       - "8080:8080"
     depends_on:
@@ -18,7 +22,7 @@ services:
     container_name: voxlet-mariadb
     environment:
       MARIADB_ROOT_PASSWORD: 1234
-      MARIADB_DATABASE: VoxletPostProd
+      MARIADB_DATABASE: VoxletDB
       MARIADB_USER: admin
       MARIADB_PASSWORD: 1234
     ports:

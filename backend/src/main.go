@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -10,7 +10,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir?")
+		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS NOW")
 	}
 
 	PORT := os.Getenv("BACKEND_API_PORT")

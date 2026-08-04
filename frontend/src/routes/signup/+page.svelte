@@ -19,6 +19,7 @@
 
 		isChecking = true;
 		const availability = await checkUsernameAvailability(cleanUsername);
+		console.log("availability", availability);
 		isChecking = false;
 
 		if (availability === 0) {
