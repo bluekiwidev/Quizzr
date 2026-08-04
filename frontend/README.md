@@ -2,6 +2,9 @@
 The frontend runs on svelte with tailwind css, shadcn and some other packages.
 
 ## How to run
+You will need the following
+- Latest version of [nodejs](https://nodejs.org/en/download)
+- Latest version of pnpm
 
 Clone the repo
 ```bash
