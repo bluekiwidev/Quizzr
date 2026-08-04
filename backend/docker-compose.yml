@@ -9,21 +9,27 @@ services:
       DB_USER: admin
       DB_PWORD: 1234
       DB_IP: mariadb
-      DB_PORT: 3306
-      BACKEND_API_PORT: 3000
+      DB_PORT: ":3306"
+      BACKEND_API_PORT: ":3000"
     ports:
-      - "8080:8080"
+      - "3000:3000"
     depends_on:
       mariadb:
-        condition: service_started
+        condition: service_healthy
   
   mariadb:
-    image: mariadb:lts-ubi
+    image: mariadb:lts
     container_name: voxlet-mariadb
     environment:
       MARIADB_ROOT_PASSWORD: 1234
       MARIADB_DATABASE: VoxletDB
       MARIADB_USER: admin
       MARIADB_PASSWORD: 1234
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     ports:
       - "3306:3306"
