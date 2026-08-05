@@ -5,5 +5,7 @@
 	let { children } = $props();
 </script>
 
+<title>Signup to Quizzr</title>
+
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 {@render children()}
