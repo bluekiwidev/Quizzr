@@ -26,7 +26,7 @@
 
 		if (availability === 0) {
 			if (signupResult === 0) {
-				window.location.href = "/login";
+				window.location.href = "/signin";
 			} else if (signupResult === 1) {
 				signupStatus = "Username or email already exists.";
 			} else if (signupResult === 2) {
