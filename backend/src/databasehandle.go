@@ -168,3 +168,82 @@ func usernamevalidcheck(username string) int {
 		return 200 // username available
 	}
 }
+
+func adduser(username string, email string, password string) bool {
+
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
+	fmt.Println(dsn, "\n")
+
+	db, err := sql.Open("mysql", dsn) // Initializing
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
+	}
+	defer db.Close()
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
+	}
+
+	fmt.Println("Database Connected Successfully!")
+
+	query := "INSERT INTO userdata (username, email, password) VALUES (?, ?, ?)"
+
+	_, err = db.Exec(query, username, email, password)
+	if err != nil {
+		fmt.Println("Error adding user:", err)
+		return false
+	}
+
+	return true
+}
+
+func doesemailexist(email string) bool {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
+	fmt.Println(dsn, "\n")
+
+	db, err := sql.Open("mysql", dsn) // Initializing
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
+	}
+	defer db.Close()
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
+	}
+
+	fmt.Println("Database Connected Successfully!")
+	var exists bool
+	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE email = ?)", email).Scan(&exists)
+	return (exists)
+
+}
