@@ -34,6 +34,7 @@ backend/src/*.exe~
 backend/src/*.dll
 backend/src/*.so
 backend/src/*.dylib
+backend/src/Quizzr 
 
 # Test binary, built with `go test -c`
 backend/src/*.test
