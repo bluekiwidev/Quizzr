@@ -41,7 +41,10 @@ func startwebserver(PORT string) {
 		Password string `json:"Password"`
 	}
 
-	http.HandleFunc("/blahblahblah", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/submitsignup", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		fmt.Println("Received request")
 
 		var payload Payload
@@ -54,9 +57,9 @@ func startwebserver(PORT string) {
 
 		if appenduser(payload.Username, payload.Email, payload.Password) == true {
 			fmt.Println("IT MADE THE ACC")
+			w.WriteHeader(http.StatusCreated)
 		}
 
-		w.WriteHeader(http.StatusOK)
 	})
 
 	log.Fatal(http.ListenAndServe(PORT, nil))
