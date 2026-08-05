@@ -28,4 +28,4 @@
   </h1>
 </div>
 
-<h2 class="text-3xl font-semibold tracking-tight text-white text-center">With Voxel</h2>
+<h2 class="text-3xl font-semibold tracking-tight text-white text-center">With Quizzr</h2>
