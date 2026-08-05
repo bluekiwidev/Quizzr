@@ -2,6 +2,7 @@ import { PUBLIC_BACKEND } from "$env/static/public";
 
 export default async function sendSignupRequest(email: string, username: string, password: string): Promise<number> {
     try {
+        console.log("Sending signup request to backend...");
         const response = await fetch(
           `${PUBLIC_BACKEND}/submitsignup`,
           {
