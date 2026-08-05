@@ -8,12 +8,12 @@ You will need the following
 
 Clone the repo
 ```bash
-git clone https://github.com/bluekiwidev/voxlet.git
+git clone https://github.com/bluekiwidev/Quizzr.git
 ```
 
 Then cd into the repo's frontend
 ```bash
-cd voxlet/frontend
+cd Quizzr/frontend
 ```
 
 Install the deps with pnpm

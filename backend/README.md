@@ -12,12 +12,12 @@ You will need the following
 
 Clone the repo
 ```bash
-git clone https://github.com/bluekiwidev/voxlet.git
+git clone https://github.com/bluekiwidev/Quizzr.git
 ```
 
 Then cd into the backend
 ```bash
-cd voxlet/backend
+cd Quizzr/backend
 ```
 
 Copy over the .env example into the src
@@ -39,12 +39,12 @@ go mod tidy
 
 Build the app
 ```bash
-go build -o Voxlet.exe .
+go build -o Quizzr.exe .
 ```
 
 Run the app
 ```bash
-./Voxlet.exe
+./Quizzr.exe
 ```
 
 ## How to run with docker
@@ -53,12 +53,12 @@ You will need the following
 
 Clone the repo
 ```bash
-git clone https://github.com/bluekiwidev/voxlet.git
+git clone https://github.com/bluekiwidev/Quizzr.git
 ```
 
 Then cd into the backend
 ```bash
-cd voxlet/backend
+cd Quizzr/backend
 ```
 Edit the docker compose to match your config
 ```bash
