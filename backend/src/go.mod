@@ -1,4 +1,4 @@
-module github.com/bluekiwidev/voxlet
+module github.com/bluekiwidev/Quizzr
 
 go 1.26.4
 
