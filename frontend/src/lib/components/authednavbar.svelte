@@ -10,14 +10,43 @@
 				<img src={Logo} alt="Quizzr Logo" class="h-10 w-auto max-w-32 object-contain" />
 			</span>
 		</a>
-
+		<a
+			href="/dashboard"
+			class="rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-foreground transition hover:border-foreground/10 hover:bg-foreground/5"
+		>
+			Dashboard
+		</a>
+		<a
+			href="/locker"
+			class="rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-foreground transition hover:border-foreground/10 hover:bg-foreground/5"
+		>
+			My locker
+		</a>
+		<a
+			href="/quizzes"
+			class="rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-foreground transition hover:border-foreground/10 hover:bg-foreground/5"
+		>
+			My quizzes
+		</a>
+		<a
+			href="/library"
+			class="rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-foreground transition hover:border-foreground/10 hover:bg-foreground/5"
+		>
+			Quiz library
+		</a>
+		<a
+			href="/settings"
+			class="rounded-full border border-transparent px-4 py-2 text-sm font-semibold text-foreground transition hover:border-foreground/10 hover:bg-foreground/5"
+		>
+			Settings
+		</a>
 		<div class="flex items-center gap-2 sm:gap-3">
 			<ThemeToggle />
 			<a
-				href="/dashboard"
+				href="/signout"
 				class="rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background shadow-[0_10px_24px_-16px_rgba(31,32,32,0.7)] transition hover:-translate-y-0.5"
 			>
-				Dashboard
+				Sign out
 			</a>
 		</div>
 	</div>
