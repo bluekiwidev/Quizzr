@@ -8,10 +8,6 @@
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
   <section class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.12fr_.88fr]">
     <div class="space-y-8">
-      <div class="inline-flex items-center gap-2 rounded-full border border-border bg-card/75 px-4 py-2 text-sm font-semibold text-foreground shadow-[0_16px_40px_-28px_rgba(31,32,32,0.6)] backdrop-blur">
-        <span class="size-2 rounded-full bg-primary"></span>
-        Learning that feels alive
-      </div>
 
       <div class="max-w-3xl space-y-5">
         <h1 class="text-[clamp(3rem,9vw,6.75rem)] font-black leading-[0.9] tracking-tight text-foreground">
@@ -37,8 +33,7 @@
         </h1>
 
         <p class="max-w-2xl text-lg leading-8 text-foreground/75 sm:text-xl">
-          Quizzr turns study time into a bright, competitive game room with quick setup, lively
-          rounds, and a visual style that keeps the momentum up.
+          Quizzr turns boring lessons (no offence) into engaging, interactive games that inspire students to learn, compete, and have fun. Teachers can create games in seconds, and students can join with a simple code.
         </p>
       </div>
 
@@ -55,21 +50,6 @@
         >
           I already have an account
         </a>
-      </div>
-
-      <div class="grid gap-3 sm:grid-cols-3">
-        <div class="rounded-3xl border border-border bg-card/70 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
-          <p class="text-sm font-semibold text-primary">Fast rounds</p>
-          <p class="mt-2 text-sm leading-6 text-foreground/70">Launch games in seconds and keep the pace moving.</p>
-        </div>
-        <div class="rounded-3xl border border-border bg-card/70 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
-          <p class="text-sm font-semibold text-primary">Built for energy</p>
-          <p class="mt-2 text-sm leading-6 text-foreground/70">Bold color, smooth motion, and a playful classroom feel.</p>
-        </div>
-        <div class="rounded-3xl border border-border bg-card/70 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
-          <p class="text-sm font-semibold text-primary">Easy to run</p>
-          <p class="mt-2 text-sm leading-6 text-foreground/70">Focus on the game instead of the setup.</p>
-        </div>
       </div>
     </div>
 
