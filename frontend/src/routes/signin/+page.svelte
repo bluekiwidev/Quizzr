@@ -6,7 +6,7 @@
 
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
 	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.02fr_.98fr]">
-		<div class="flex items-end rounded-[2rem] border border-white/70 bg-white/55 p-8 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl lg:p-10">
+		<div class="flex items-end rounded-[2rem] border border-border bg-card/75 p-8 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl lg:p-10">
 			<div class="max-w-xl space-y-5">
 				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Welcome back</p>
 				<h1 class="text-[clamp(2.75rem,7vw,5rem)] font-black leading-none tracking-tight text-foreground">
@@ -17,11 +17,11 @@
 					remember.
 				</p>
 				<div class="grid gap-3 sm:grid-cols-2">
-					<div class="rounded-3xl bg-foreground/5 p-4">
+					<div class="rounded-3xl border border-border bg-background/50 p-4">
 						<p class="text-sm font-semibold text-primary">Fast access</p>
 						<p class="mt-1 text-sm leading-6 text-foreground/70">One quick sign in and you are back in control.</p>
 					</div>
-					<div class="rounded-3xl bg-foreground/5 p-4">
+					<div class="rounded-3xl border border-border bg-background/50 p-4">
 						<p class="text-sm font-semibold text-primary">Focused layout</p>
 						<p class="mt-1 text-sm leading-6 text-foreground/70">Calm surfaces, clear hierarchy, no clutter.</p>
 					</div>
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 
-		<div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
+		<div class="rounded-[2rem] border border-border bg-card/85 p-6 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
 			<div class="space-y-2">
 				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Sign in</p>
 				<h2 class="text-3xl font-black tracking-tight text-foreground">Welcome back, teacher.</h2>

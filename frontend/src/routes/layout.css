@@ -135,6 +135,14 @@
 		background-attachment: fixed;
 		overflow-x: hidden;
 	}
+
+	.dark body {
+		background-image:
+			radial-gradient(circle at top left, rgba(85, 104, 144, 0.45), transparent 26%),
+			radial-gradient(circle at 84% 10%, rgba(244, 185, 184, 0.16), transparent 22%),
+			linear-gradient(180deg, #1f2020 0%, #252627 55%, #171818 100%);
+	}
+
 	html {
 		@apply font-sans;
 	}
