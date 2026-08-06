@@ -45,42 +45,95 @@
 
 <Navbar />
 
-<div class="flex w-[clamp(20rem,40vw,50rem)] items-center justify-center p-8 bg-primary place-self-center rounded-lg">
-  <h1 class="text-3xl font-bold text-white display-block text-nowrap m-4">Sign Up</h1>
-  <form onsubmit={handleSubmit} class="flex flex-col gap-4 w-full">
-	<input
-	  type="text"
-	  name="email"
-	  placeholder="Email"
-	  required
-	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-	/>
-	<input
-	  type="text"
-	  name="username"
-	  placeholder="Username"
-	  required
-	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-	/>
-	<p class="text-sm text-white">Only letters, numbers, and underscores are allowed. Must be between 3 and 20 characters. </p>
-	{#if isChecking }
-	  <p class="text-sm text-white">Checking username availability...</p>
-	{/if}
-	<p>{usernameStatus}</p>
-	<input
-	  type="password"
-	  name="password"
-	  placeholder="Password"
-	  required
-	  class="bg-primary text-white border border-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-	/>
-	<p class="text-sm text-white">Please make it at least 8 characters long, with capital letters, numbers, and special characters. But I'm only a sign and have not enforced it so do whatever.</p>
-	<button
-	  type="submit"
-	  class="bg-emerald-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-emerald-600 transition-colors duration-300"
-	>
-	  Sign In
-	</button>
-	<p class="text-red-500">{signupStatus}</p>
-  </form>
-</div>
+<main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.98fr_1.02fr]">
+		<div class="rounded-[2rem] border border-white/70 bg-white/55 p-8 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl lg:p-10">
+			<div class="max-w-xl space-y-5">
+				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Create your room</p>
+				<h1 class="text-[clamp(2.75rem,7vw,5rem)] font-black leading-none tracking-tight text-foreground">
+					Make every class feel like a fresh game.
+				</h1>
+				<p class="max-w-lg text-lg leading-8 text-foreground/75">
+					Build an account in a clean, high-energy space designed to keep the excitement up from the first click.
+				</p>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<div class="rounded-3xl bg-foreground/5 p-4">
+						<p class="text-sm font-semibold text-primary">Instant clarity</p>
+						<p class="mt-1 text-sm leading-6 text-foreground/70">Strong contrast and softer surfaces keep the form easy to scan.</p>
+					</div>
+					<div class="rounded-3xl bg-foreground/5 p-4">
+						<p class="text-sm font-semibold text-primary">Playful, not noisy</p>
+						<p class="mt-1 text-sm leading-6 text-foreground/70">Warm color, crisp buttons, and just enough motion to feel alive.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
+			<div class="space-y-2">
+				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Sign up</p>
+				<h2 class="text-3xl font-black tracking-tight text-foreground">Start your Quizzr account.</h2>
+				<p class="text-sm leading-6 text-foreground/70">Keep it simple and jump right in.</p>
+			</div>
+
+			<form onsubmit={handleSubmit} class="mt-8 flex flex-col gap-4">
+				<div class="space-y-2">
+					<label class="text-sm font-semibold text-foreground" for="email">Email</label>
+					<input
+						type="text"
+						name="email"
+						placeholder="Email"
+						required
+						class="w-full rounded-2xl border-0 bg-background/70 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
+					/>
+				</div>
+
+				<div class="space-y-2">
+					<label class="text-sm font-semibold text-foreground" for="username">Username</label>
+					<input
+						type="text"
+						name="username"
+						placeholder="Username"
+						required
+						class="w-full rounded-2xl border-0 bg-background/70 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
+					/>
+					<p class="text-sm leading-6 text-foreground/65">
+						Only letters, numbers, and underscores are allowed. Must be between 3 and 20 characters.
+					</p>
+				</div>
+
+				{#if isChecking }
+					<p class="text-sm font-medium text-primary">Checking username availability...</p>
+				{/if}
+				{#if usernameStatus}
+					<p class="rounded-2xl bg-secondary/20 px-4 py-3 text-sm font-medium text-foreground">{usernameStatus}</p>
+				{/if}
+
+				<div class="space-y-2">
+					<label class="text-sm font-semibold text-foreground" for="password">Password</label>
+					<input
+						type="password"
+						name="password"
+						placeholder="Password"
+						required
+						class="w-full rounded-2xl border-0 bg-background/70 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
+					/>
+					<p class="text-sm leading-6 text-foreground/65">
+						Aim for at least 8 characters with a mix of letters, numbers, and symbols.
+					</p>
+				</div>
+
+				<button
+					type="submit"
+					class="mt-2 inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[0_18px_36px_-24px_rgba(31,32,32,0.8)] transition hover:-translate-y-0.5"
+				>
+					Create account
+				</button>
+
+				{#if signupStatus}
+					<p class="rounded-2xl bg-secondary/25 px-4 py-3 text-sm font-medium text-foreground">{signupStatus}</p>
+				{/if}
+			</form>
+		</div>
+	</section>
+</main>

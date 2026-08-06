@@ -5,27 +5,105 @@
 
 <Navbar />
 
-<div class="flex min-h-64 items-center justify-center p-8">
-  <h1 class="text-[clamp(1rem,7vw,5.5rem)] text-center font-semibold tracking-tight leading-none text-white">
-    <span class="block text-foreground">Make learning</span>{" "}
-    <span class="block align-bottom leading-tight text-inherit font-extrabold pb-3">
-      <DiaTextReveal
-        repeat
-        repeatDelay={1.2}
-        text={[
-          "engaging",
-          "active",
-          "competitive",
-          "easy",
-          "interactive",
-          "rewarding",
-          "social",
-          "immersive",
-		      "fun again"
-        ]}
-      />
-    </span>
-  </h1>
-</div>
+<main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+  <section class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.12fr_.88fr]">
+    <div class="space-y-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white/65 px-4 py-2 text-sm font-semibold text-foreground shadow-[0_16px_40px_-28px_rgba(31,32,32,0.6)] backdrop-blur">
+        <span class="size-2 rounded-full bg-primary"></span>
+        Learning that feels alive
+      </div>
 
-<h2 class="text-3xl font-semibold tracking-tight text-white text-center">With Quizzr</h2>
+      <div class="max-w-3xl space-y-5">
+        <h1 class="text-[clamp(3rem,9vw,6.75rem)] font-black leading-[0.9] tracking-tight text-foreground">
+          <span class="block text-[#556890]">Make learning</span>
+          <span class="block text-foreground">
+            <DiaTextReveal
+              repeat
+              repeatDelay={1.2}
+              colors={["#556890", "#f4b9b8", "#1f2020", "#d7bf87"]}
+              text={[
+                "engaging",
+                "active",
+                "competitive",
+                "easy",
+                "interactive",
+                "rewarding",
+                "social",
+                "immersive",
+                "fun again"
+              ]}
+            />
+          </span>
+        </h1>
+
+        <p class="max-w-2xl text-lg leading-8 text-foreground/75 sm:text-xl">
+          Quizzr turns study time into a bright, competitive game room with quick setup, lively
+          rounds, and a visual style that keeps the momentum up.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href="/signup"
+          class="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-[0_20px_40px_-22px_rgba(31,32,32,0.8)] transition hover:-translate-y-0.5"
+        >
+          Get started
+        </a>
+        <a
+          href="/signin"
+          class="inline-flex items-center justify-center rounded-full border border-foreground/15 bg-white/60 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-foreground/25 hover:bg-white/80"
+        >
+          I already have an account
+        </a>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-3">
+        <div class="rounded-3xl border border-white/70 bg-white/55 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
+          <p class="text-sm font-semibold text-primary">Fast rounds</p>
+          <p class="mt-2 text-sm leading-6 text-foreground/70">Launch games in seconds and keep the pace moving.</p>
+        </div>
+        <div class="rounded-3xl border border-white/70 bg-white/55 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
+          <p class="text-sm font-semibold text-primary">Built for energy</p>
+          <p class="mt-2 text-sm leading-6 text-foreground/70">Bold color, smooth motion, and a playful classroom feel.</p>
+        </div>
+        <div class="rounded-3xl border border-white/70 bg-white/55 p-4 shadow-[0_18px_40px_-30px_rgba(31,32,32,0.55)] backdrop-blur">
+          <p class="text-sm font-semibold text-primary">Easy to run</p>
+          <p class="mt-2 text-sm leading-6 text-foreground/70">Focus on the game instead of the setup.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="absolute -left-8 top-8 hidden h-24 w-24 rounded-full bg-secondary/70 blur-3xl lg:block"></div>
+      <div class="absolute -right-6 bottom-10 hidden h-28 w-28 rounded-full bg-primary/25 blur-3xl lg:block"></div>
+      <div class="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white/65 p-6 shadow-[0_30px_80px_-45px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.35em] text-primary">Game room</p>
+            <h2 class="mt-3 text-2xl font-bold tracking-tight text-foreground">A brighter way to learn</h2>
+          </div>
+          <div class="rounded-2xl bg-foreground px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-background">
+            Live
+          </div>
+        </div>
+
+        <div class="mt-8 rounded-[1.75rem] border border-foreground/10 bg-[linear-gradient(135deg,rgba(254,236,192,0.95),rgba(244,185,184,0.32))] p-6 shadow-inner shadow-white/40">
+          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary">This is Quizzr</p>
+          <p class="mt-4 text-3xl font-black leading-tight text-foreground sm:text-4xl">
+            Quick quizzes, bright reactions, and a room that feels worth joining.
+          </p>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-3xl bg-white/70 p-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Momentum</p>
+              <p class="mt-2 text-lg font-bold text-foreground">Keeps players focused</p>
+            </div>
+            <div class="rounded-3xl bg-white/70 p-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Style</p>
+              <p class="mt-2 text-lg font-bold text-foreground">Feels polished and modern</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
