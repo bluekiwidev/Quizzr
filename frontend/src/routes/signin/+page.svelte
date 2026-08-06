@@ -6,7 +6,7 @@
 
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
 	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.02fr_.98fr]">
-		<div class="rounded-[2rem] border border-border bg-card/85 p-6 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
+		<div class="rounded-xl border border-border bg-card/90 p-6 shadow-[0_24px_60px_-36px_rgba(30,35,43,0.55)] backdrop-blur-xl sm:p-8">
 			<div class="space-y-2">
 				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Sign in</p>
 				<h2 class="text-3xl font-black tracking-tight text-foreground">Welcome back peeps</h2>
@@ -20,7 +20,7 @@
 						type="text"
 						name="email"
 						placeholder="Email"
-						class="w-full rounded-2xl border-0 bg-background/70 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
+						class="w-full rounded-md border-0 bg-background/80 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
 					/>
 				</div>
 				<div class="space-y-2">
@@ -29,12 +29,12 @@
 						type="password"
 						name="password"
 						placeholder="Password"
-						class="w-full rounded-2xl border-0 bg-background/70 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
+						class="w-full rounded-md border-0 bg-background/80 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
 					/>
 				</div>
 				<button
 					type="submit"
-					class="mt-2 inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[0_18px_36px_-24px_rgba(31,32,32,0.8)] transition hover:-translate-y-0.5"
+					class="mt-2 inline-flex items-center justify-center rounded-md bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[0_18px_36px_-24px_rgba(30,35,43,0.8)] transition hover:-translate-y-0.5"
 				>
 					Sign in
 				</button>

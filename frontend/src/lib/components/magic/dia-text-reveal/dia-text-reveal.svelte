@@ -136,17 +136,19 @@
 	);
 
 	const rootStyle = $derived.by(() => ({
-		transform: "translateY(-2px)",
 		color: "transparent",
 		backgroundClip: "text",
 		WebkitBackgroundClip: "text",
 		backgroundSize: "100% 100%",
 		backgroundImage,
+		lineHeight: "1.15",
+		paddingTop: "0.06em",
+		paddingBottom: "0.08em",
 		...(isMulti && {
 			display: "inline-block",
-			overflow: "hidden",
+			overflow: "visible",
 			whiteSpace: "nowrap",
-			verticalAlign: "text-center",
+			verticalAlign: "baseline",
 			...(fixedW != null && { width: fixedW }),
 		}),
 	}));
@@ -252,7 +254,7 @@
 
 <motion.span
 	bind:ref={spanRef}
-	class={cn("align-bottom leading-[100%] text-inherit", className)}
+	class={cn("align-bottom leading-none text-inherit", className)}
 	style={rootStyle}
 	animate={animatedW != null ? { width: animatedW } : undefined}
 	transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}

@@ -53,7 +53,7 @@
 <button
 	type="button"
 	onclick={toggleTheme}
-	class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-[0_10px_24px_-18px_rgba(31,32,32,0.7)] transition hover:-translate-y-0.5 hover:bg-accent/70"
+	class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card text-foreground shadow-[0_10px_24px_-18px_rgba(30,35,43,0.7)] transition hover:-translate-y-0.5 hover:bg-accent/70"
 	aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
 	title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
 >

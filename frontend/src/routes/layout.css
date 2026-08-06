@@ -8,75 +8,75 @@
 @plugin '@tailwindcss/typography';
 
 :root {
-	--background: #feecc0;
-	--foreground: #1f2020;
+	--background: #f4f6f8;
+	--foreground: #1e232b;
 
-	--card: #fff6dc;
-	--card-foreground: #1f2020;
+	--card: #ffffff;
+	--card-foreground: #1e232b;
 
-	--popover: #fff6dc;
-	--popover-foreground: #1f2020;
+	--popover: #ffffff;
+	--popover-foreground: #1e232b;
 
-	--primary: #556890;
-	--primary-foreground: #feecc0;
+	--primary: #355a8a;
+	--primary-foreground: #f4f6f8;
 
-	--secondary: #f4b9b8;
-	--secondary-foreground: #1f2020;
+	--secondary: #d6dde6;
+	--secondary-foreground: #1e232b;
 
-	--muted: #f8e8bf;
-	--muted-foreground: #556890;
+	--muted: #e8edf2;
+	--muted-foreground: #556174;
 
-	--accent: #f4b9b8;
-	--accent-foreground: #1f2020;
+	--accent: #cfd7e2;
+	--accent-foreground: #1e232b;
 
 	--destructive: #9d3d34;
-	--destructive-foreground: #feecc0;
+	--destructive-foreground: #f4f6f8;
 
-	--border: rgba(31, 32, 32, 0.12);
-	--input: rgba(31, 32, 32, 0.16);
-	--ring: #556890;
-	--radius: 0.875rem;
+	--border: rgba(30, 35, 43, 0.12);
+	--input: rgba(30, 35, 43, 0.18);
+	--ring: #355a8a;
+	--radius: 0.375rem;
 
-	--chart-1: #556890;
-	--chart-2: #f4b9b8;
-	--chart-3: #1f2020;
-	--chart-4: #d7bf87;
-	--chart-5: #fef3d3;
+	--chart-1: #355a8a;
+	--chart-2: #d6dde6;
+	--chart-3: #1e232b;
+	--chart-4: #9aa8bc;
+	--chart-5: #f4f6f8;
 }
 
 .dark {
-	--background: #1f2020;
-	--foreground: #feecc0;
-	--card: #2b2c2d;
-	--card-foreground: #feecc0;
-	--popover: #2b2c2d;
-	--popover-foreground: #feecc0;
-	--primary: #f4b9b8;
-	--primary-foreground: #1f2020;
-	--secondary: #556890;
-	--secondary-foreground: #feecc0;
-	--muted: #2f3031;
-	--muted-foreground: #f8e8bf;
-	--accent: #556890;
-	--accent-foreground: #feecc0;
+	--background: #11161d;
+	--foreground: #f4f6f8;
+	--card: #1a2028;
+	--card-foreground: #f4f6f8;
+	--popover: #1a2028;
+	--popover-foreground: #f4f6f8;
+	--primary: #92add1;
+	--primary-foreground: #11161d;
+	--secondary: #2a3340;
+	--secondary-foreground: #f4f6f8;
+	--muted: #202833;
+	--muted-foreground: #b6c0cd;
+	--accent: #2f3947;
+	--accent-foreground: #f4f6f8;
 	--destructive: #f08b7d;
-	--destructive-foreground: #1f2020;
-	--border: rgba(254, 236, 192, 0.12);
-	--input: rgba(254, 236, 192, 0.16);
-	--ring: #f4b9b8;
-	--chart-1: #f4b9b8;
-	--chart-2: #556890;
-	--chart-3: #feecc0;
-	--chart-4: #d7bf87;
+	--destructive-foreground: #11161d;
+	--border: rgba(244, 246, 248, 0.12);
+	--input: rgba(244, 246, 248, 0.16);
+	--ring: #92add1;
+	--chart-1: #92add1;
+	--chart-2: #2f3947;
+	--chart-3: #f4f6f8;
+	--chart-4: #7f94af;
 	--chart-5: #ffffff;
-	--sidebar: #2b2c2d;
-	--sidebar-foreground: #feecc0;
-	--sidebar-primary: #f4b9b8;
-	--sidebar-primary-foreground: #1f2020;
-	--sidebar-accent: #556890;
-	--sidebar-accent-foreground: #feecc0;
-	--sidebar-border: rgba(254, 236, 192, 0.12);
-	--sidebar-ring: #f4b9b8;
+	--sidebar: #1a2028;
+	--sidebar-foreground: #f4f6f8;
+	--sidebar-primary: #92add1;
+	--sidebar-primary-foreground: #11161d;
+	--sidebar-accent: #2f3947;
+	--sidebar-accent-foreground: #f4f6f8;
+	--sidebar-border: rgba(244, 246, 248, 0.12);
+	--sidebar-ring: #92add1;
 }
 
 @theme inline {
@@ -128,12 +128,12 @@
 	body {
 		@apply bg-background text-foreground antialiased;
 		min-height: 100vh;
-		background-color: #feecc0;
+		background-color: #f4f6f8;
 		overflow-x: hidden;
 	}
 
 	.dark body {
-		background-color: #1f2020;
+		background-color: #11161d;
 	}
 
 	html {
@@ -141,7 +141,7 @@
 	}
 
 	::selection {
-		background: rgba(85, 104, 144, 0.22);
-		color: #1f2020;
+		background: rgba(53, 90, 138, 0.22);
+		color: #1e232b;
 	}
 }
