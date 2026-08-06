@@ -47,28 +47,7 @@
 
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
 	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.98fr_1.02fr]">
-		<div class="rounded-[2rem] border border-border bg-card/75 p-8 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl lg:p-10">
-			<div class="max-w-xl space-y-5">
-				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Create your room</p>
-				<h1 class="text-[clamp(2.75rem,7vw,5rem)] font-black leading-none tracking-tight text-foreground">
-					Make every class feel like a fresh game.
-				</h1>
-				<p class="max-w-lg text-lg leading-8 text-foreground/75">
-					Build an account in a clean, high-energy space designed to keep the excitement up from the first click.
-				</p>
-				<div class="grid gap-3 sm:grid-cols-2">
-					<div class="rounded-3xl border border-border bg-background/50 p-4">
-						<p class="text-sm font-semibold text-primary">Instant clarity</p>
-						<p class="mt-1 text-sm leading-6 text-foreground/70">Strong contrast and softer surfaces keep the form easy to scan.</p>
-					</div>
-					<div class="rounded-3xl border border-border bg-background/50 p-4">
-						<p class="text-sm font-semibold text-primary">Playful, not noisy</p>
-						<p class="mt-1 text-sm leading-6 text-foreground/70">Warm color, crisp buttons, and just enough motion to feel alive.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
+		
 		<div class="rounded-[2rem] border border-border bg-card/85 p-6 shadow-[0_28px_80px_-48px_rgba(31,32,32,0.7)] backdrop-blur-xl sm:p-8">
 			<div class="space-y-2">
 				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Sign up</p>
