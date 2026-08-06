@@ -1,17 +1,14 @@
 <script lang="ts">
 	import ThemeToggle from './theme-toggle.svelte';
+	import Logo from '$lib/assets/logo.svg';
 </script>
 
 <header class="sticky top-0 z-50 px-4 pt-4 sm:px-6">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-border bg-card/80 px-4 py-3 shadow-[0_20px_60px_-40px_rgba(31,32,32,0.7)] backdrop-blur-xl dark:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.8)]">
 		<a href="/dashboard" class="flex items-center gap-3">
-			<span class="grid size-10 place-items-center rounded-2xl bg-primary text-primary-foreground text-sm font-black tracking-[0.3em]">
-				Q
+			<span class="grid h-10 min-w-10 place-items-center rounded-2xl bg-foreground px-3">
+				<img src={Logo} alt="Quizzr Logo" class="h-10 w-auto max-w-32 object-contain" />
 			</span>
-			<div class="leading-tight">
-				<p class="text-xs font-semibold uppercase tracking-[0.35em] text-primary">Quizzr</p>
-				<p class="text-sm text-muted-foreground">Your game room</p>
-			</div>
 		</a>
 
 		<div class="flex items-center gap-2 sm:gap-3">
