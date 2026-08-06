@@ -1,5 +1,8 @@
 <script>
+    import Navbar from "$lib/components/authednavbar.svelte";
 </script>
 
-<h1 class="text-3xl font-bold text-white display-block text-nowrap m-4">TBD</h1>
+<Navbar />
+<h1 class="text-3xl font-bold text-primary display-block text-nowrap m-4">Dashboard</h1>
+
 
