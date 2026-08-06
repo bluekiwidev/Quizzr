@@ -17,14 +17,14 @@
               repeatDelay={1.2}
               colors={["#355a8a", "#92add1", "#1e232b", "#d6dde6"]}
               text={[
-                "blocky",
+                "engaging",
                 "active",
                 "competitive",
-                "simple",
-                "playful",
                 "easy",
+                "interactive",
+                "rewarding",
                 "social",
-                "sharp",
+                "immersive",
                 "fun again"
               ]}
             />
