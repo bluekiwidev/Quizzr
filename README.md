@@ -1,6 +1,7 @@
 # Quizzr
 An open source, fun quizzing/revision platform for putting the fun into learning. 
 
+This is a passion project from me and Shmolph so development will be slow. But then we also have a lot of free time.
 ## Instructions of how to run both parts
 # Frontend
 The frontend runs on svelte with tailwind css, shadcn and some other packages.
