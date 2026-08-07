@@ -6,8 +6,8 @@ services:
     container_name: voxlet-backend
     environment:
       DB_NAME: VoxletDB
-      DB_USER: admin
-      DB_PWORD: 1234
+      DB_USER: voxlet
+      DB_PWORD: ALSO_CHANGE_ME
       DB_IP: mariadb
       DB_PORT: ":3306"
       BACKEND_API_PORT: ":3000"
@@ -23,10 +23,10 @@ services:
     image: mariadb:lts
     container_name: voxlet-mariadb
     environment:
-      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_ROOT_PASSWORD: CHANGE_ME
       MARIADB_DATABASE: VoxletDB
-      MARIADB_USER: admin
-      MARIADB_PASSWORD: 1234
+      MARIADB_USER: voxlet
+      MARIADB_PASSWORD: ALSO_CHANGE_ME
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
