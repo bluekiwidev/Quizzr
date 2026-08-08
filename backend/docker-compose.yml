@@ -10,6 +10,12 @@ services:
       DB_PWORD: ALSO_CHANGE_ME
       DB_IP: mariadb
       DB_PORT: ":3306"
+
+      REDIS_ADDR: localhost:6379
+      REDIS_PWORD: ""
+      REDIS_DB: "0"
+      REDIS_PROTOCOL: "2"
+
       BACKEND_API_PORT: ":3000"
     ports:
       - "3000:3000"
