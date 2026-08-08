@@ -1,5 +1,25 @@
-<script>
+<script lang="ts">
 	import Navbar from "$lib/components/navbar.svelte";
+	import sendSigninRequest from "$lib/auth/signin";
+
+	let signinStatus = $state();
+
+	async function handleSubmit(event: SubmitEvent) {
+		event.preventDefault();
+		const form = event.currentTarget as HTMLFormElement;
+		const formData = new FormData(form);
+
+		const email = String(formData.get("email"));
+		const password = String(formData.get("password"));
+
+		const signinResult = await sendSigninRequest(email, password);
+
+		if (signinResult === 0) {
+				window.location.href = "/dashboard";
+			} else if (signinResult === 1) {
+				signinStatus = "Invalid email or password.";
+			}
+	}
 </script>
 
 <Navbar />
@@ -13,7 +33,7 @@
 				<p class="text-sm leading-6 text-foreground/70">Use your credentials to continue.</p>
 			</div>
 
-			<form method="POST" class="mt-8 flex flex-col gap-4">
+			<form onsubmit={handleSubmit} class="mt-8 flex flex-col gap-4">
 				<div class="space-y-2">
 					<label class="text-sm font-semibold text-foreground" for="email">Email</label>
 					<input
@@ -32,6 +52,9 @@
 						class="w-full rounded-md border-0 bg-background/80 px-4 py-3 text-foreground shadow-inner shadow-white/40 ring-1 ring-inset ring-foreground/10 placeholder:text-foreground/40 focus:ring-2 focus:ring-primary"
 					/>
 				</div>
+				{#if signinStatus}
+					<p class="text-sm text-red-500">{signinStatus}</p>
+				{/if}
 				<button
 					type="submit"
 					class="mt-2 inline-flex items-center justify-center rounded-md bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[0_18px_36px_-24px_rgba(30,35,43,0.8)] transition hover:-translate-y-0.5"
