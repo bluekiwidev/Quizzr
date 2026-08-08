@@ -9,14 +9,15 @@ export default async function sendSigninRequest(email: string, password: string)
             method: "POST",
             body: JSON.stringify(
                 { Email: email, Password: password }),
+            credentials: 'include'
           }
         );
 
         // Return codes:
-        if (response.status === 201) return 0; //All good
+        if (response.status === 200) return 0; //All good
         if (response.status === 404) return 1; //Error
         if (response.status === 500) return 3; //Server error
-        return 4;
+        return response.status;
       } catch {
         return 4;
       }
