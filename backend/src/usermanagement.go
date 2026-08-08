@@ -7,7 +7,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// LATER ME, ADD BCRYPT IF IT WORKS FINE
 func appenduser(username string, email string, uncryptedpword string) bool {
 	fmt.Println(username)
 	fmt.Println(email)
