@@ -11,7 +11,7 @@ services:
       DB_IP: mariadb
       DB_PORT: ":3306"
 
-      REDIS_ADDR: localhost:6379
+      REDIS_ADDR: redis:6379
       REDIS_PWORD: ""
       REDIS_DB: "0"
       REDIS_PROTOCOL: "2"

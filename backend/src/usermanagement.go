@@ -44,6 +44,7 @@ func login(email string, password string) (bool, string) {
 		if elapsed < 3*time.Second {
 			time.Sleep(3*time.Second - elapsed)
 		}
+		fmt.Println("[LOG] Email does not exist")
 		return false, "0"
 	}
 
@@ -53,6 +54,7 @@ func login(email string, password string) (bool, string) {
 		if elapsed < 3*time.Second {
 			time.Sleep(3*time.Second - elapsed)
 		}
+		fmt.Println("[LOG] Password is incorrect")
 		return false, "0"
 	}
 
@@ -62,6 +64,7 @@ func login(email string, password string) (bool, string) {
 
 	// Store the session in Redis
 	storesession(base64.URLEncoding.EncodeToString(keyBytes), email)
+	fmt.Println("[LOG] Session stored in Redis for email:", email)
 
 	// Return the session key
 	return true, base64.URLEncoding.EncodeToString(keyBytes)

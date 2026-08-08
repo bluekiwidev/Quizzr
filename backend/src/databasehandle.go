@@ -319,20 +319,26 @@ func comparepassword(email string, password string) bool {
 	fmt.Println("Database Connected Successfully!")
 
 	var storedPassword string
-	err = db.QueryRow("SELECT password FROM userdata WHERE username = ?", email).Scan(&storedPassword)
+	err = db.QueryRow("SELECT password FROM userdata WHERE email = ?", email).Scan(&storedPassword)
 	if err != nil {
+		fmt.Println("[LOG] Error retrieving password from database:", err)
 		return false
 	}
+	fmt.Println("[LOG] Stored password:", storedPassword)
 
 	if bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)) == nil {
 		return true
 	}
+	fmt.Println("[LOG] comparing password", storedPassword, password)
+	fmt.Println("[LOG] bcrypt says", bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)))
 	return false
 }
 
 func storesession(sessionID string, email string) bool {
 	rdb, ctx := redisinit()
 	defer rdb.Close()
+
+	fmt.Println("[LOG] Storing session in Redis:", sessionID, "for email:", email)
 
 	err := rdb.Set(ctx, sessionID, email, 24*time.Hour).Err()
 	if err != nil {

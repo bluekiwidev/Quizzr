@@ -63,10 +63,11 @@ func startwebserver(PORT string) {
 
 	})
 
-	http.HandleFunc("/submitlogin", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/submitsignin", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		fmt.Println("Received request")
 
 		// Decode payload
