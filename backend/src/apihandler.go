@@ -62,5 +62,27 @@ func startwebserver(PORT string) {
 
 	})
 
+	http.HandleFunc("/submitlogin", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		fmt.Println("Received request")
+
+		var payload Payload
+
+		err := json.NewDecoder(r.Body).Decode(&payload)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+
+		if login(payload.Email, payload.Password, payload.Username) == true {
+			fmt.Println("DIDNT LOGIN, BUT EMAIL EXISTS.")
+		} else {
+			print("Email no exist, no login")
+		}
+
+	})
+
 	log.Fatal(http.ListenAndServe(PORT, nil))
 }

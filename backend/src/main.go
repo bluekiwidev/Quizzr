@@ -14,7 +14,7 @@ func main() {
 	}
 
 	PORT := os.Getenv("BACKEND_API_PORT")
-
 	dbstartup()
 	startwebserver(PORT)
+
 }

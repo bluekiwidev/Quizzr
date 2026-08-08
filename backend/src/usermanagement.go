@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -29,5 +30,20 @@ func appenduser(username string, email string, uncryptedpword string) bool {
 		}
 	} else {
 		return (false)
+	}
+}
+
+func login(email string, password string, username string) bool {
+	start := time.Now()
+
+	if doesemailexist(email) == true {
+		return true
+	} else {
+		return false
+	}
+
+	elapsed := time.Since(start)
+	if elapsed < 3*time.Second {
+		time.Sleep(3*time.Second - elapsed)
 	}
 }

@@ -1,25 +1,30 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	"github.com/redis/go-redis/v9"
 )
 
 func dbstartup() {
 	fmt.Println("Starting DB")
 
+	// Load .env file
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
 	}
 
+	//Declare DB connection variables
 	dbName := os.Getenv("DB_NAME")
 	dbUser := os.Getenv("DB_USER")
 	dbPword := os.Getenv("DB_PWORD")
@@ -29,6 +34,7 @@ func dbstartup() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
 	fmt.Println(dsn, "\n")
 
+	// Connect to the database
 	db, err := sql.Open("mysql", dsn) // Initializing
 	if err != nil {
 		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
@@ -45,6 +51,37 @@ func dbstartup() {
 
 	fmt.Println("Database Connected Successfully!")
 	tables(db)
+}
+
+func redisinit() (*redis.Client, context.Context) {
+	fmt.Println("Starting Redis")
+
+	// Load .env file
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+	}
+
+	redis_addr := os.Getenv("REDIS_ADDR")
+	redis_pword := os.Getenv("REDIS_PWORD")
+	redis_db, err := strconv.Atoi(os.Getenv("REDIS_DB"))
+	if err != nil {
+		log.Fatalf("Environment variable REDIS_DB is required and must be a valid number: %v", err)
+	}
+	redis_protocol, err := strconv.Atoi(os.Getenv("REDIS_PROTOCOL"))
+	if err != nil {
+		log.Fatalf("Environment variable REDIS_PROTOCOL is required and must be a valid number: %v", err)
+	}
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     redis_addr,
+		Password: redis_pword,
+		DB:       redis_db,
+		Protocol: redis_protocol,
+	})
+
+	ctx := context.Background()
+	return rdb, ctx
 }
 
 // This is not finished. Finish it later T_T
@@ -176,6 +213,7 @@ func adduser(username string, email string, password string) bool {
 		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
 	}
 
+	//Declare DB connection variables
 	dbName := os.Getenv("DB_NAME")
 	dbUser := os.Getenv("DB_USER")
 	dbPword := os.Getenv("DB_PWORD")
