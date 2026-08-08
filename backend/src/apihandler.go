@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 func startwebserver(PORT string) {
@@ -68,6 +69,7 @@ func startwebserver(PORT string) {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		fmt.Println("Received request")
 
+		// Decode payload
 		var payload Payload
 
 		err := json.NewDecoder(r.Body).Decode(&payload)
@@ -76,10 +78,24 @@ func startwebserver(PORT string) {
 			return
 		}
 
-		if login(payload.Email, payload.Password, payload.Username) == true {
-			fmt.Println("DIDNT LOGIN, BUT EMAIL EXISTS.")
+		// Check login info
+		loginStatus, sessionKey := login(payload.Email, payload.Password)
+
+		// Validate login and set cookie
+		if loginStatus == true && sessionKey != "0" {
+			fmt.Println("Login is a match!")
+			http.SetCookie(w, &http.Cookie{
+				Name:     "session_id",
+				Value:    sessionKey,
+				Path:     "/",
+				HttpOnly: true,
+				Expires:  time.Now().Add(24 * time.Hour),
+			})
+			w.WriteHeader(http.StatusOK)
 		} else {
-			print("Email no exist, no login")
+			// Invalid login, return unauthorized status
+			print("Email no exist or password is a nono, no login")
+			w.WriteHeader(http.StatusUnauthorized)
 		}
 
 	})
