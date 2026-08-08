@@ -21,8 +21,8 @@ func appenduser(username string, email string, uncryptedpword string) bool {
 	password := string(hashedBytes)
 	fmt.Println(password)
 
-	fmt.Println(doesemailexist(email))
-	if doesemailexist(email) == false {
+	fmt.Println(compareemail(email))
+	if compareemail(email) == false {
 		if adduser(username, email, password) == true {
 			return (true)
 		} else {
@@ -33,17 +33,25 @@ func appenduser(username string, email string, uncryptedpword string) bool {
 	}
 }
 
-func login(email string, password string, username string) bool {
+func login(email string, password string) bool {
 	start := time.Now()
 
-	if doesemailexist(email) == true {
-		return true
-	} else {
+	// Check if email exists
+	if compareemail(email) != true {
+		elapsed := time.Since(start)
+		if elapsed < 3*time.Second {
+			time.Sleep(3*time.Second - elapsed)
+		}
 		return false
 	}
 
-	elapsed := time.Since(start)
-	if elapsed < 3*time.Second {
-		time.Sleep(3*time.Second - elapsed)
+	// Check if password is correct
+	if comparepassword(email, password) != true {
+		elapsed := time.Since(start)
+		if elapsed < 3*time.Second {
+			time.Sleep(3*time.Second - elapsed)
+		}
+		return false
 	}
+	return true
 }
