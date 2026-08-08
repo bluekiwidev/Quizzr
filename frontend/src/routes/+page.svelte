@@ -7,7 +7,7 @@
 
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
   <section class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-1">
-    <div class="space-y-8 text-center mx-auto">
+    <div class="space-y-8 text-center mx-auto block-dvh">
       <div class="max-w-3xl space-y-5">
         <h1 class="text-[clamp(3rem,9vw,6.75rem)] font-black leading-[0.9] tracking-tight text-foreground">
           <span class="block text-primary">Make learning</span>
@@ -50,6 +50,12 @@
           I already have an account
         </a>
       </div>
+    </div>
+  </section>
+  <section class="justify-center">
+    <div class="block-dvh">
+    <h2 class="inline-block">TBD</h2>
+
     </div>
   </section>
 </main>
