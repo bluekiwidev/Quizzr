@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"time"
+
+	"crypto/rand"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -32,7 +35,7 @@ func appenduser(username string, email string, uncryptedpword string) bool {
 	}
 }
 
-func login(email string, password string) bool {
+func login(email string, password string) (bool, string) {
 	start := time.Now()
 
 	// Check if email exists
@@ -41,7 +44,7 @@ func login(email string, password string) bool {
 		if elapsed < 3*time.Second {
 			time.Sleep(3*time.Second - elapsed)
 		}
-		return false
+		return false, "0"
 	}
 
 	// Check if password is correct
@@ -50,7 +53,16 @@ func login(email string, password string) bool {
 		if elapsed < 3*time.Second {
 			time.Sleep(3*time.Second - elapsed)
 		}
-		return false
+		return false, "0"
 	}
-	return true
+
+	// Generare a random session key
+	keyBytes := make([]byte, 32)
+	rand.Read(keyBytes)
+
+	// Store the session in Redis
+	storesession(base64.URLEncoding.EncodeToString(keyBytes), email)
+
+	// Return the session key
+	return true, base64.URLEncoding.EncodeToString(keyBytes)
 }
