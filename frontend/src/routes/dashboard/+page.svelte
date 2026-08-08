@@ -29,7 +29,8 @@
 			try {
 				console.log('Requesting stats from backend...');
 				const response = await fetch(`${PUBLIC_BACKEND}/getstats`, {
-					method: 'get'
+					method: 'get',
+					credentials: 'include',
 				});
 
 				// Return codes:
