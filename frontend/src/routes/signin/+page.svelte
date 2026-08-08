@@ -5,7 +5,7 @@
 <Navbar />
 
 <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.02fr_.98fr]">
+	<section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_.98fr]">
 		<div class="rounded-xl border border-border bg-card/90 p-6 shadow-[0_24px_60px_-36px_rgba(30,35,43,0.55)] backdrop-blur-xl sm:p-8">
 			<div class="space-y-2">
 				<p class="text-sm font-semibold uppercase tracking-[0.35em] text-primary">Sign in</p>
