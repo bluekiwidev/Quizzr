@@ -330,11 +330,11 @@ func comparepassword(email string, password string) bool {
 	return false
 }
 
-func storesession(sessionID string, userID int) bool {
+func storesession(sessionID string, email string) bool {
 	rdb, ctx := redisinit()
 	defer rdb.Close()
 
-	err := rdb.Set(ctx, sessionID, userID, 24*time.Hour).Err()
+	err := rdb.Set(ctx, sessionID, email, 24*time.Hour).Err()
 	if err != nil {
 		log.Fatalf("Failed to set session in Redis: %v", err)
 		return false
