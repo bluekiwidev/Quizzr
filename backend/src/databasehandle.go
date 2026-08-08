@@ -13,6 +13,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"github.com/redis/go-redis/v9"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func dbstartup() {
@@ -250,7 +251,7 @@ func adduser(username string, email string, password string) bool {
 	return true
 }
 
-func doesemailexist(email string) bool {
+func compareemail(email string) bool {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
@@ -284,4 +285,71 @@ func doesemailexist(email string) bool {
 	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE email = ?)", email).Scan(&exists)
 	return (exists)
 
+}
+
+func comparepassword(email string, password string) bool {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPword := os.Getenv("DB_PWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
+	fmt.Println(dsn, "\n")
+
+	db, err := sql.Open("mysql", dsn) // Initializing
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
+	}
+	defer db.Close()
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
+	}
+
+	fmt.Println("Database Connected Successfully!")
+
+	var storedPassword string
+	err = db.QueryRow("SELECT password FROM userdata WHERE username = ?", email).Scan(&storedPassword)
+	if err != nil {
+		return false
+	}
+
+	if bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)) == nil {
+		return true
+	}
+	return false
+}
+
+func storesession(sessionID string, userID int) bool {
+	rdb, ctx := redisinit()
+	defer rdb.Close()
+
+	err := rdb.Set(ctx, sessionID, userID, 24*time.Hour).Err()
+	if err != nil {
+		log.Fatalf("Failed to set session in Redis: %v", err)
+		return false
+	}
+	return true
+}
+
+func revokesession(sessionID string) bool {
+	rdb, ctx := redisinit()
+	defer rdb.Close()
+
+	err := rdb.Del(ctx, sessionID).Err()
+	if err != nil {
+		log.Fatalf("Failed to delete session from Redis: %v", err)
+		return false
+	}
+	return true
 }
