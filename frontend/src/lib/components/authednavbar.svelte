@@ -1,6 +1,11 @@
 <script lang="ts">
 	import ThemeToggle from './theme-toggle.svelte';
 	import Logo from '$lib/assets/logo.svg';
+	import sendSignoutRequest from '$lib/auth/signout';
+
+	async function handleSignOut() {
+		await sendSignoutRequest();
+	}
 </script>
 
 <header class="px-4 pt-4 sm:px-6">
@@ -42,12 +47,12 @@
 		</a>
 		<div class="flex items-center gap-2 sm:gap-3">
 			<ThemeToggle />
-			<a
-				href="/signout"
+			<button
+				onclick={handleSignOut}
 				class="rounded-md bg-foreground px-4 py-2 text-sm font-semibold text-background shadow-[0_10px_24px_-16px_rgba(30,35,43,0.7)] transition hover:-translate-y-0.5"
 			>
 				Sign out
-			</a>
+			</button>
 		</div>
 	</div>
 </header>
