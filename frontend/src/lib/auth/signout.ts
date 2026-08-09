@@ -14,9 +14,8 @@ export default async function sendSignoutRequest(): Promise<number> {
         // Return codes:
         if (response.status === 204) return 0; //All good
         if (response.status === 500) return 1; //Server error
-        if (response.status === 404) return 3; //Not found
         return response.status;
       } catch {
-        return 4;
+        return 2;
       }
 }

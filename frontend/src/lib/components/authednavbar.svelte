@@ -4,7 +4,12 @@
 	import sendSignoutRequest from '$lib/auth/signout';
 
 	async function handleSignOut() {
-		await sendSignoutRequest();
+		
+		if (await sendSignoutRequest() == 0) {
+			window.location.href = "/"
+		} else {
+			console.log("Failed to sign out")
+		}
 	}
 </script>
 

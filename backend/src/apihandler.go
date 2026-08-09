@@ -108,12 +108,25 @@ func startwebserver(PORT string) {
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		fmt.Println("Received request")
 
-		// Decode payload
+		// Deal with token
 		token, err := r.Cookie("session_id")
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 		}
 
+		revoked := revokesession(token.Value)
+
+		if revoked == true {
+			http.SetCookie(w, &http.Cookie{
+				Name:     "session_id",
+				Value:    "",
+				Path:     "/",
+				HttpOnly: true,
+				Expires:  time.Now(),
+			})
+			w.WriteHeader(http.StatusNoContent)
+		}
+		w.WriteHeader(http.StatusInternalServerError)
 	})
 
 	log.Fatal(http.ListenAndServe(PORT, nil))

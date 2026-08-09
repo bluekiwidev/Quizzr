@@ -72,7 +72,7 @@ func redisinit() (*redis.Client, context.Context) {
 	}
 	redis_protocol, err := strconv.Atoi(os.Getenv("REDIS_PROTOCOL"))
 	if err != nil {
-		logger.Error(fmt.Sprint("Env var REDIS_PROTOCOL is required and must be a valid number: %v", err))
+		logger.Error(fmt.Sprintf("Env var REDIS_PROTOCOL is required and must be a valid number: %v", err))
 	}
 
 	// Connect to database

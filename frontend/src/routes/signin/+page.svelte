@@ -15,10 +15,10 @@
 		const signinResult = await sendSigninRequest(email, password);
 
 		if (signinResult === 0) {
-				window.location.href = "/dashboard";
-			} else if (signinResult === 1) {
-				signinStatus = "Invalid email or password.";
-			}
+			window.location.href = "/dashboard";
+		} else if (signinResult === 1) {
+			signinStatus = "Invalid email or password.";
+		}
 	}
 </script>
 
