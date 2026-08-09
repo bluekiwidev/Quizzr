@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -16,13 +15,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func dbstartup() {
-	fmt.Println("Starting DB")
+var dbAddr *sql.DB
 
-	// Load .env file
+func dbstartup() {
+	//Stat MariaDB conn
+	logger.Info("Starting MariaDB connection")
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+		logger.Warn("Could not find .env file. Will use env vars instead")
 	}
 
 	//Declare DB connection variables
@@ -33,47 +33,50 @@ func dbstartup() {
 	dbPort := os.Getenv("DB_PORT")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
-	fmt.Println(dsn, "\n")
+	logger.Info(fmt.Sprint("MariaDB DSN is: ", dsn))
 
 	// Connect to the database
 	db, err := sql.Open("mysql", dsn) // Initializing
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		logger.Error("Failed to open database connection", "error", err)
 	}
-	defer db.Close()
+
 	db.SetMaxOpenConns(25)
 	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
+
+	//Set global dbAddr variable to the database connection+
+	dbAddr = db
 
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
+		logger.Error(fmt.Sprint("Failed to ping MariaDB, error: ", err))
 	}
 
-	fmt.Println("Database Connected Successfully!")
+	logger.Info("MariaDB connection successful")
 	tables(db)
 }
 
 func redisinit() (*redis.Client, context.Context) {
-	fmt.Println("Starting Redis")
+	logger.Info("Starting Redis")
 
-	// Load .env file
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
+		logger.Warn("Could not find .env file. Will use env vars instead")
 	}
 
+	// Setup redis parameters
 	redis_addr := os.Getenv("REDIS_ADDR")
 	redis_pword := os.Getenv("REDIS_PWORD")
 	redis_db, err := strconv.Atoi(os.Getenv("REDIS_DB"))
 	if err != nil {
-		log.Fatalf("Environment variable REDIS_DB is required and must be a valid number: %v", err)
+		logger.Error(fmt.Sprintf("Env var REDIS_DB is required and must be a valid number: %v", err))
 	}
 	redis_protocol, err := strconv.Atoi(os.Getenv("REDIS_PROTOCOL"))
 	if err != nil {
-		log.Fatalf("Environment variable REDIS_PROTOCOL is required and must be a valid number: %v", err)
+		logger.Error(fmt.Sprint("Env var REDIS_PROTOCOL is required and must be a valid number: %v", err))
 	}
 
+	// Connect to database
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     redis_addr,
 		Password: redis_pword,
@@ -82,6 +85,14 @@ func redisinit() (*redis.Client, context.Context) {
 	})
 
 	ctx := context.Background()
+
+	// Test connection
+	err = rdb.Ping(ctx).Err()
+	if err != nil {
+		logger.Error("Failed to ping Redis")
+	}
+
+	logger.Info("Redis connection successful")
 	return rdb, ctx
 }
 
@@ -91,7 +102,7 @@ func tables(db *sql.DB) {
 
 	rows, err := db.Query(query)
 	if err != nil {
-		log.Fatalf(err.Error())
+		logger.Error(err.Error())
 	}
 	defer rows.Close()
 
@@ -100,7 +111,7 @@ func tables(db *sql.DB) {
 	for rows.Next() {
 		var name string
 		if err := rows.Scan(&name); err != nil {
-			log.Fatalf(err.Error())
+			logger.Error(err.Error())
 		}
 		currentTables = append(currentTables, name)
 	}
@@ -152,99 +163,38 @@ func createtables(db *sql.DB, currentTables []string) {
 
 		query := fmt.Sprintf("CREATE TABLE %s (%s)", table.Name, strings.Join(defs, ", "))
 		if _, err := db.Exec(query); err != nil {
-			log.Fatalf("Database failed to write: %v", err)
+			logger.Error(fmt.Sprintf("Database failed to write: %v", err))
 		}
-		fmt.Printf("\nCreated %s table\n", table.Name)
+		logger.Info(fmt.Sprintf("\nCreated %s table\n", table.Name))
 	}
 }
 
 func usernamevalidcheck(username string) int {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
-	}
-
-	dbName := os.Getenv("DB_NAME")
-	dbUser := os.Getenv("DB_USER")
-	dbPword := os.Getenv("DB_PWORD")
-	dbIP := os.Getenv("DB_IP")
-	dbPort := os.Getenv("DB_PORT")
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
-	fmt.Println(dsn, "\n")
-
-	db, err := sql.Open("mysql", dsn) // Initializing
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-	defer db.Close()
-	db.SetMaxOpenConns(25)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-
-	fmt.Println("Database Connected Successfully!")
-
+	logger.Info(fmt.Sprint("Checking username: ", username))
 	var exists bool
 
-	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE username = ?)", username).Scan(&exists)
+	err := dbAddr.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE username = ?)", username).Scan(&exists)
 
 	if err != nil {
-		fmt.Println("QueryRow error:", err)
+		logger.Error(fmt.Sprint("QueryRow error:", err))
 		return 500
 	}
 
 	if exists {
-		fmt.Println("Sent code 409")
+		logger.Info("Returned 409, taken")
 		return 409 // username taken
 	} else {
-		fmt.Println("Sent code 200")
+		logger.Info("Returned 200, avalible")
 		return 200 // username available
 	}
 }
 
 func adduser(username string, email string, password string) bool {
-
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
-	}
-
-	//Declare DB connection variables
-	dbName := os.Getenv("DB_NAME")
-	dbUser := os.Getenv("DB_USER")
-	dbPword := os.Getenv("DB_PWORD")
-	dbIP := os.Getenv("DB_IP")
-	dbPort := os.Getenv("DB_PORT")
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
-	fmt.Println(dsn, "\n")
-
-	db, err := sql.Open("mysql", dsn) // Initializing
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR:", err)
-	}
-	defer db.Close()
-	db.SetMaxOpenConns(25)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR:", err)
-	}
-
-	fmt.Println("Database Connected Successfully!")
-
 	query := "INSERT INTO userdata (username, email, password) VALUES (?, ?, ?)"
 
-	_, err = db.Exec(query, username, email, password)
+	_, err := dbAddr.Exec(query, username, email, password)
 	if err != nil {
-		fmt.Println("Error adding user:", err)
+		logger.Error(fmt.Sprint("Error adding user to userdata, error: ", err))
 		return false
 	}
 
@@ -252,85 +202,26 @@ func adduser(username string, email string, password string) bool {
 }
 
 func compareemail(email string) bool {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
-	}
-
-	dbName := os.Getenv("DB_NAME")
-	dbUser := os.Getenv("DB_USER")
-	dbPword := os.Getenv("DB_PWORD")
-	dbIP := os.Getenv("DB_IP")
-	dbPort := os.Getenv("DB_PORT")
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
-	fmt.Println(dsn, "\n")
-
-	db, err := sql.Open("mysql", dsn) // Initializing
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-	defer db.Close()
-	db.SetMaxOpenConns(25)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-
-	fmt.Println("Database Connected Successfully!")
 	var exists bool
-	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE email = ?)", email).Scan(&exists)
+	err := dbAddr.QueryRow("SELECT EXISTS(SELECT 1 FROM userdata WHERE email = ?)", email).Scan(&exists)
+	if err != nil {
+		logger.Error(fmt.Sprint("Error checking email, error: ", err))
+		return false
+	}
 	return (exists)
 
 }
 
 func comparepassword(email string, password string) bool {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("\n Couldnt find .env file in backend dir. HINT: Is the .env actually in the backend dir? WILL BE USING ENV VARS")
-	}
-
-	dbName := os.Getenv("DB_NAME")
-	dbUser := os.Getenv("DB_USER")
-	dbPword := os.Getenv("DB_PWORD")
-	dbIP := os.Getenv("DB_IP")
-	dbPort := os.Getenv("DB_PORT")
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s%s)/%s?parseTime=true", dbUser, dbPword, dbIP, dbPort, dbName)
-	fmt.Println(dsn, "\n")
-
-	db, err := sql.Open("mysql", dsn) // Initializing
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Opening with database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-	defer db.Close()
-	db.SetMaxOpenConns(25)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatalf("\n Failed to Make a Connection to database. HINT: Are your .env credentials correct?                   ERROR: %v", err)
-	}
-
-	fmt.Println("Database Connected Successfully!")
-
 	var storedPassword string
-	err = db.QueryRow("SELECT password FROM userdata WHERE email = ?", email).Scan(&storedPassword)
+	err := dbAddr.QueryRow("SELECT password FROM userdata WHERE email = ?", email).Scan(&storedPassword)
 	if err != nil {
-		fmt.Println("[LOG] Error retrieving password from database:", err)
 		return false
 	}
-	fmt.Println("[LOG] Stored password:", storedPassword)
 
 	if bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)) == nil {
 		return true
 	}
-	fmt.Println("[LOG] comparing password", storedPassword, password)
-	fmt.Println("[LOG] bcrypt says", bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)))
 	return false
 }
 
@@ -338,11 +229,9 @@ func storesession(sessionID string, email string) bool {
 	rdb, ctx := redisinit()
 	defer rdb.Close()
 
-	fmt.Println("[LOG] Storing session in Redis:", sessionID, "for email:", email)
-
 	err := rdb.Set(ctx, sessionID, email, 24*time.Hour).Err()
 	if err != nil {
-		log.Fatalf("Failed to set session in Redis: %v", err)
+		logger.Error(fmt.Sprint("Failed to add session in Redis", err))
 		return false
 	}
 	return true
@@ -354,7 +243,7 @@ func revokesession(sessionID string) bool {
 
 	err := rdb.Del(ctx, sessionID).Err()
 	if err != nil {
-		log.Fatalf("Failed to delete session from Redis: %v", err)
+		logger.Error(fmt.Sprint("Failed to invalidate Redis session", err))
 		return false
 	}
 	return true
