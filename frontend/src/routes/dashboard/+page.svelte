@@ -101,7 +101,7 @@
 				class="rounded-xl border border-border bg-[linear-gradient(135deg,rgba(53,90,138,0.95),rgba(30,35,43,0.92))] p-6 text-background shadow-[0_24px_60px_-36px_rgba(30,35,43,0.7)] sm:p-8 dark:bg-[linear-gradient(135deg,rgba(146,173,209,0.2),rgba(47,57,71,0.7))]"
 			>
 				<p class="text-xs font-semibold tracking-[0.35em] text-background/80 uppercase">
-					Spotlight
+					Recent quizzes
 				</p>
 				<p class="mt-4 text-3xl leading-tight font-black">
 					Lead with clear prompts, bright contrast, and a rhythm that keeps people playing.
