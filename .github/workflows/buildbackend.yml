@@ -29,7 +29,7 @@ jobs:
       working-directory: backend/src
       run: go build -v ./...
 
-# Later tm
+# Later™. For now it wil just build
 #    - name: Test
 #      working-directory: backend/src
 #      run: go test -v ./...
