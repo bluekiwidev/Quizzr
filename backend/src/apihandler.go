@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+type statData struct {
+	Wins   int `json:"wins"`
+	Losses int `json:"losses"`
+	Total  int `json:"total"`
+}
+
 func startwebserver(PORT string) {
 
 	// Start webserver
@@ -93,6 +99,7 @@ func startwebserver(PORT string) {
 				Expires:  time.Now().Add(24 * time.Hour),
 			})
 			w.WriteHeader(http.StatusOK)
+			return
 		} else {
 			// Invalid login, return unauthorized status
 			print("Email no exist or password is a nono, no login")
@@ -112,6 +119,7 @@ func startwebserver(PORT string) {
 		token, err := r.Cookie("session_id")
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
+			return
 		}
 
 		revoked := revokesession(token.Value)
@@ -125,8 +133,44 @@ func startwebserver(PORT string) {
 				Expires:  time.Now(),
 			})
 			w.WriteHeader(http.StatusNoContent)
+			return
 		}
 		w.WriteHeader(http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/getstats", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+		// Deal with token
+		token, err := r.Cookie("session_id")
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		wins, losses, total := getinfo(sessionemail(token.Value))
+
+		data := statData{
+			Wins:   wins,
+			Losses: losses,
+			Total:  total,
+		}
+
+		logger.Info(fmt.Sprint("Returning stat data: ", wins, losses, total))
+
+		w.WriteHeader(http.StatusOK)
+		err = json.NewEncoder(w).Encode(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			logger.Error(fmt.Sprint("Error encoding to JSON: ", err))
+			return
+		}
+
 	})
 
 	log.Fatal(http.ListenAndServe(PORT, nil))

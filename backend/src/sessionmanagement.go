@@ -28,3 +28,15 @@ func revokesession(sessionID string) bool {
 	}
 	return true
 }
+
+func sessionemail(sessionID string) string {
+	rdb, ctx := redisinit()
+	defer rdb.Close()
+
+	email, err := rdb.Get(ctx, sessionID).Result()
+	if err != nil {
+		logger.Error(fmt.Sprint("Failed to retrieve email from Redis", err))
+		return ""
+	}
+	return email
+}

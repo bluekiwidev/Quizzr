@@ -140,6 +140,9 @@ var expectedTables = []TableSchema{
 			{Name: "password", Definition: "VARCHAR(255) NOT NULL"},
 			{Name: "datejoined", Definition: "DATETIME DEFAULT CURRENT_TIMESTAMP"},
 			{Name: "isadmin", Definition: "BOOLEAN NOT NULL DEFAULT FALSE"},
+			{Name: "wins", Definition: "INT NOT NULL DEFAULT 0"},
+			{Name: "losses", Definition: "INT NOT NULL DEFAULT 0"},
+			{Name: "totalgames", Definition: "INT NOT NULL DEFAULT 0"},
 		},
 	},
 }
@@ -186,6 +189,16 @@ func usernamevalidcheck(username string) int {
 		logger.Info("Returned 200, avalible")
 		return 200 // username available
 	}
+}
+
+func getinfo(email string) (int, int, int) {
+	var wins, losses, totalGames int
+	err := dbAddr.QueryRow("SELECT wins, losses, totalgames FROM userdata WHERE email = ?", email).Scan(&wins, &losses, &totalGames)
+	if err != nil {
+		logger.Error(fmt.Sprint("QueryRow error:", err))
+		return -1, -1, -1
+	}
+	return wins, losses, totalGames
 }
 
 func adduser(username string, email string, password string) bool {

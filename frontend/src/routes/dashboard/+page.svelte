@@ -1,3 +1,11 @@
+<script module lang="ts">
+	export interface StatData {
+  		wins: number;
+ 		losses: number;
+ 		total: number;
+}
+</script>
+
 <script lang="ts">
 	import Navbar from '$lib/components/authednavbar.svelte';
 	import { PUBLIC_BACKEND } from '$env/static/public';
@@ -25,40 +33,35 @@
 		}
 	});
 
-	async function getStats(): Promise<[number, number, number, number] | [-1, -1, -1, -1]> { //Returns [wins, losses, totalGames, level] or [-1, -1, -1] on error
+	async function getStats(): Promise<StatData> { //Returns [wins, losses, totalGames, level] or [-1, -1, -1] on error
 			try {
-				console.log('Requesting stats from backend...');
 				const response = await fetch(`${PUBLIC_BACKEND}/getstats`, {
-					method: 'get',
+					method: 'GET',
 					credentials: 'include',
 				});
 
 				// Return codes:
-				if (response.status === 201) {
+				if (response.status === 200) {
 					const data = await response.json();
-					return data as [number, number, number, number]; //All good
+					return data; //All good
 				}
-				if (response.status === 500) return [-1, -1, -1, -1]; //Server error
-				return [-1, -1, -1, -1];
+				if (response.status === 500) return { wins: -1, losses: -1, total: -1 }; //Server error
+				return { wins: -1, losses: -1, total: -1 };
 			} catch {
-				return [-1, -1, -1, -1];
+				return { wins: -1, losses: -1, total: -1 };
 			}
 		}
 
 	onMount(async () => {
 		const stats = await getStats();
-		if (Array.isArray(stats) && stats.length === 4 && stats[0] === -1 && stats[1] === -1 && stats[2] === -1 && stats[3] === -1) {
+		if (stats.wins === -1 && stats.losses === -1 && stats.total === -1) {
 			wins = 'Error';
 			losses = 'Error';
 			totalGames = 'Error';
-			targetLevel = 'Error';
-		} else if (Array.isArray(stats) && stats.length === 4) {
-			[wins, losses, totalGames, targetLevel] = stats;
 		} else {
-			wins = 'Error';
-			losses = 'Error';
-			totalGames = 'Error';
-			targetLevel = 'Error';
+			wins = stats.wins;
+			losses = stats.losses;
+			totalGames = stats.total;
 		}
 	});
 </script>
@@ -104,7 +107,7 @@
 					Recent quizzes
 				</p>
 				<p class="mt-4 text-3xl leading-tight font-black">
-					Lead with clear prompts, bright contrast, and a rhythm that keeps people playing.
+					TBD
 				</p>
 			</div>
 
